@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat POC</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="current-user">
+                    <div class="user-avatar" id="currentUserAvatar"></div>
+                    <div class="user-info">
+                        <div class="user-name" id="currentUserName">User</div>
+                        <div class="user-id" id="currentUserId">#0</div>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchUsers" placeholder="Search users...">
+            </div>
+            
+            <div class="users-list" id="usersList">
+                <div class="loading">Loading users...</div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-placeholder" id="chatPlaceholder">
+                <div class="placeholder-icon">💬</div>
+                <h2>Select a user to start chatting</h2>
+                <p>Choose someone from the list to begin a conversation</p>
+            </div>
+
+            <div class="chat-active" id="chatActive" style="display: none;">
+                <div class="chat-header">
+                    <div class="chat-user-info">
+                        <div class="user-avatar" id="chatUserAvatar"></div>
+                        <div>
+                            <div class="chat-user-name" id="chatUserName">User</div>
+                            <div class="chat-user-status" id="chatUserStatus">
+                                <span class="status-dot"></span>
+                                <span id="connectionStatus">Connecting...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="close-chat-btn" id="closeChatBtn">✕</button>
+                </div>
+
+                <div class="messages-container" id="messagesContainer">
+                    <div class="loading-messages">Loading messages...</div>
+                </div>
+
+                <div class="message-input-container">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Type a message..." 
+                        rows="1"
+                    ></textarea>
+                    <button id="sendBtn" class="send-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+package com.Shrecycle.Sharecycle_backend.security;
+
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import com.paypal.base.sdk.Environment;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Configuration for the PayPal REST API.
+ */
+import org.springframework.context.annotation.Profile;
+
+@Configuration
+@Profile("!test")
+public class PayPalConfig {
+
+    @Value("${paypal.client.id}")
+    private String clientId;
+
+    @Value("${paypal.client.secret}")
+    private String clientSecret;
+
+    @Value("${paypal.mode}")
+    private String mode;
+
+    /**
+     * Creates a configuration map for the PayPal SDK.
+     * @return A map containing the PayPal SDK configuration.
+     */
+    @Bean
+    public Map<String, String> paypalSdkConfig() {
+        Map<String, String> config = new HashMap<>();
+        config.put("mode", Environment);
+        return config;
+    }
+
+    /**
+     * Creates OAuth token credentials for PayPal.
+     * @return An OAuthTokenCredential object.
+     */
+    @Bean
+    public OAuthTokenCredential oAuthTokenCredential() {
+        return new OAuthTokenCredential(clientId, clientSecret, paypalSdkConfig());
+    }
+
+    /**
+     * Creates an API context for PayPal.
+     * @return An APIContext object.
+     * @throws PayPalRESTException if an error occurs while creating the API context.
+     */
+    @Bean
+    public APIContext apiContext() throws PayPalRESTException {
+        APIContext context = new APIContext(oAuthTokenCredential().getAccessToken());
+        context.setConfigurationMap(paypalSdkConfig());
+        return context;
+    }
+}
